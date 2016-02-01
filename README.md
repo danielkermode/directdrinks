@@ -1,5 +1,5 @@
-# Translation app
-app for translating phrases (WIP!!!)
+# Directdrinks admin app
+admin app for directdrinks
 
 ## install
 
