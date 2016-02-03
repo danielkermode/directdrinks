@@ -24,30 +24,27 @@ export class App extends Component {
             <Navbar.Header>
               <Navbar.Brand>
                 <LinkContainer to="/home">
-                  <a href='#'>Personal Dictionary</a>
+                  <a href='#'>Home</a>
                 </LinkContainer>
               </Navbar.Brand>
             </Navbar.Header>
             <Nav bsStyle="tabs">
               {!this.props.user && 
               <Nav bsStyle="tabs">
-	              <LinkContainer to="/register">
-	                <NavItem href="#">Register</NavItem>
-	              </LinkContainer>
 	              <LinkContainer to="/login">
 	                <NavItem href="#">Login</NavItem>
 	              </LinkContainer>             
               </Nav>}
               {this.props.user && 
               <Nav bsStyle="tabs">
-                <LinkContainer to="/translate">
-                  <NavItem href="#">Translate</NavItem>
+                <LinkContainer to="/products">
+                  <NavItem href="#">Products</NavItem>
                 </LinkContainer>  
-                <LinkContainer to="/dictionary">
-                  <NavItem href="#">Dictionary</NavItem>
+                <LinkContainer to="/orders">
+                  <NavItem href="#">Orders</NavItem>
                 </LinkContainer>
-                <LinkContainer to="/profile">
-                  <NavItem href="#">Profile</NavItem>
+                <LinkContainer to="/settings">
+                  <NavItem href="#">Settings</NavItem>
                 </LinkContainer>
 	              	<NavItem onClick={this.logout} href="#">Logout</NavItem>
 	              <p className="navbar-text">Welcome, {this.props.user.username}!</p> 

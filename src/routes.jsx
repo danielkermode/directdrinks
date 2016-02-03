@@ -4,19 +4,17 @@ import { Route } from 'react-router';
 import {AppContainer} from './containers/App'
 import {HomePageContainer} from './containers/HomePage'
 import {LoginPageContainer} from './containers/LoginPage'
-import {ProfilePageContainer} from './containers/ProfilePage'
-import {RegisterPageContainer} from './containers/RegisterPage'
-import {TranslatePageContainer} from './containers/TranslatePage'
-import {DictionaryPageContainer} from './containers/DictionaryPage'
+import {ProductsPageContainer} from './containers/ProductsPage'
+import {OrdersPageContainer} from './containers/OrdersPage'
+import {SettingsPageContainer} from './containers/SettingsPage'
 
 export default (
   <Route path="/" component={AppContainer}>
     <Route path="/home" component={HomePageContainer} />
     <Route path="/login" component={LoginPageContainer} />
-    <Route path="/register" component={RegisterPageContainer} />
-    <Route path="/profile" component={ProfilePageContainer} />
-    <Route path="/translate" component={TranslatePageContainer} />
-	<Route path="/dictionary" component={DictionaryPageContainer} />
+    <Route path="/products" component={ProductsPageContainer} />
+    <Route path="/orders" component={OrdersPageContainer} />
+	<Route path="/settings" component={SettingsPageContainer} />
   </Route>
 );
 

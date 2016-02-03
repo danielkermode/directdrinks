@@ -46,28 +46,11 @@ function getUrl(url) {
 
 /* getStateFromBackend (eg. Parse) */
 /* ******************************************** */
-const getState = () => {
+const getState = (user) => {
 
   return new Promise((resolve, reject) => {
 
-  	//example retrieving state from parse backend
-
-    // let server = {}
-
-    // allNumbs.find().then((serverNumbs) => {
-    //   server.numbs = serverNumbs
-    //   return allNumbs.find()
-    // }).then((success) => {
-    //   // transform to state
-    //   let state = {
-    //     numbs: numbs
-    //   }
-    //   resolve(state)
-    // }, (error) => {
-    //   // error
-    //   resolve(error)
-    // })
-    // transform to state
+  
     let state = {}
   	console.log("getting state from backend")
   	resolve(state)
@@ -80,81 +63,31 @@ export default class Backend {
 
 	constructor() {
 		/* PARSE CREDS */
-		Parse.initialize(
-			"QeDLCfWNNR34TOxU7yr6sKFhFQqvUEi4ot0zBcso",
-			"49i6ORGbwwM9Odj3DC52We7magPNad3bdz2kPLn3"
-		)
 
 	}
 
 	login(username, password) {
 		return new Promise((resolve, reject) => {
-		  Parse.User.logIn(username, password, {
-		    success: function(user) {
-		      resolve({email: user.get('email'), PhrasePairs: user.get('PhrasePairs')})
-		    },
-		    error: function(user, error) {
-		      console.log(error)
-		      reject(error.message)
-		    }
-		  });
+		  resolve(username)
 		})
 	}
 
 	logout(user) {
 		return new Promise((resolve, reject) => {
-		  Parse.User.logOut()
 		  resolve(user)
 		})
 	}
 
-	register(email, username, password) {
-		return new Promise((resolve, reject) => {
-		  Parse.User.signUp(username, password, { ACL: new Parse.ACL(), email: email }, {
-		    success: function(user) {
-		      console.log(user)
-		      resolve(user)
-		    },
-		    error: function(user, error) {
-		      console.log(error)
-		      reject(error.message)
-		    }
-		  });
-	  })
-	}
-
-	translate(word, fromLanguage, toLanguage) {
+	addProduct(name, fromLanguage, toLanguage) {
 
 	  return new Promise((resolve, reject) => {	
-	    getUrl("https://api.mymemory.translated.net/get?q="+word+"&langpair="+fromLanguage+"|"+toLanguage).then(function(response) {    	
-	    	const result = JSON.parse(response)
-	    	if(result.matches){
-			  	resolve(result.responseData.translatedText)
-			  } else{
-			  	reject(result.responseDetails)
-			  }
-			}, function(error) {
-			  reject(error)
-			});
-	  })
+	    
+		})
 	}
 
-	saveTranslation(currentTranslation) {
+	receiveOrders(currentTranslation) {
 		return new Promise((resolve, reject) => {
-			const current = Parse.User.current();
-			let phrasePairs = current.get('PhrasePairs');
-			phrasePairs.push(currentTranslation);
-		  current.save(null, {
-		    success: function(current) {
-		      // Execute any logic that should take place after the object is saved.
-		      resolve(current)
-		    },
-		    error: function(current, error) {
-		      // Execute any logic that should take place if the save fails.
-		      // error is a Parse.Error with an error code and message.
-		      reject(error)
-		    }
-		  });
+			resolve('orders arrived!')
 		})
 	}
 
