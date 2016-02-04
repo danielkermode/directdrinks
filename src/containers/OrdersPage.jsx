@@ -37,7 +37,7 @@ function mapStateToProps(state) {
   return {
       //as in app container, don't use ...state when we use react-redux-router as we never want all the state.
       user: state.server.user,
-      orders: state.orders
+      orders: state.orders.list
   };
 }
 

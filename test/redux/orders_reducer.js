@@ -19,7 +19,7 @@ describe('orders reducer', () => {
 			orders: [{order: 'an order'}]
 		})
 		expect(next.status).to.equal(1)
-		expect(next.orders[0].order).to.equal('an order')
+		expect(next.list[0].order).to.equal('an order')
 	})
 
 	it('get orders error', () => {

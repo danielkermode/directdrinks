@@ -4,7 +4,7 @@ import Promise from 'bluebird'
 const theBackend = new Backend();
 /* asynchronous actions */
 /* *************************** */
-const initialState = {orders: [], status: 1, ordersError: null}
+const initialState = {list: [], status: 1, ordersError: null}
 
 //this get orders for specific user of admin interface
 export const GET_ORDERS_SUCCESS = 'orders/GET_ORDERS_SUCCESS'
@@ -28,13 +28,13 @@ export const getOrders = (user) => {
 /* orders reducer */
 
 export const orders = (state = initialState, action) => {
-	let newOrders = state.orders.slice()
+	let newOrders = state.list.slice()
 
 	switch(action.type) {
 
 	case GET_ORDERS_SUCCESS:
 		newOrders = action.orders
-		return {...state, orders: newOrders}
+		return {...state, list: newOrders}
 
 	case GET_ORDERS_ERROR:
 		return {

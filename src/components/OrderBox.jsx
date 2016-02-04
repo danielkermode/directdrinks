@@ -24,7 +24,6 @@ export class OrderBox extends Component {
            </div>
 				<div> Time Ordered: {this.props.order.timeStamp} </div> 
 				<div> Delivery Date: {this.props.order.deliveryDate} </div>	
-				<button className='btn btn-primary'> Do something </button>
 			</div>
 		);
 	}
