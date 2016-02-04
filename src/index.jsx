@@ -6,8 +6,7 @@ import { Router, Link } from 'react-router'
 
 import { browserHistory } from 'react-router'
 import routes from './routes'
-import { createHistory } from "history";
-import { syncReduxAndRouter } from 'redux-simple-router';
+//import { syncReduxAndRouter } from 'react-router-redux';
 
 /* REDUX */
 import {Provider} from 'react-redux'
@@ -16,8 +15,6 @@ import configureStore from './redux/store'
 
 const store = configureStore(window.__INITIAL_STATE__);
 delete window.__INITIAL_STATE__;
-const history = createHistory();
-syncReduxAndRouter(history, store);
 
 /**
  * Fire-up React Router.

@@ -78,43 +78,42 @@ export default class Backend {
 		})
 	}
 
-	addProduct(name, fromLanguage, toLanguage) {
+	addProduct(picture, name, price) {
 
 	  return new Promise((resolve, reject) => {	
-	    
+	    resolve({picture, name, price})
 		})
 	}
 
-	receiveOrders(currentTranslation) {
+	getOrders(user) {
 		return new Promise((resolve, reject) => {
-			resolve('orders arrived!')
+      const dummyOrders = []
+      const aDate = new Date
+      let aDateOne = new Date
+      aDateOne.setDate(aDateOne.getDate() + 1)
+      const dummyOrderOne = {
+          products: [{name: 'lemonade', quantity: 10}, {name: 'fanta', quantity: 1}, {name: 'juice', quantity: 1}],
+          timeStamp: aDate.toString(),
+          deliveryDate: aDateOne.toString(),
+          user: {name: "dan", address: "23 italy road", email: 'asd@asd.asd'}
+        }
+      let aDateTwo = new Date
+      aDateTwo.setDate(aDateTwo.getDate() + 1)
+      const dummyOrderTwo = {
+          products: [{name: 'lemonade', quantity: 2}],
+          timeStamp: aDate.toString(),
+          deliveryDate: aDateTwo.toString(),
+          user: {name: "marco", address: "22 italy road", email: 'dsa123@das.dsa'}
+        }
+      dummyOrders[0] = dummyOrderOne
+      dummyOrders[1] = dummyOrderTwo
+			resolve(dummyOrders)
 		})
 	}
 
-	deleteTranslation(objTodelete) {
+	removeProduct(index, name) {
 		return new Promise((resolve, reject) => {
-			const current = Parse.User.current();
-			const phrasePairs = current.get('PhrasePairs');
-			let pairs = phrasePairs.map(function(obj, index){ 
-					if(Underscore.isEqual(obj, objTodelete)){
-						return;
-						} else {
-						return obj;
-					}
-			  });
-			pairs = Underscore.compact(pairs)
-			current.set('PhrasePairs', pairs)
-		  current.save(null, {
-		    success: function(current) {
-		      // Execute any logic that should take place after the object is saved.
-		      resolve(pairs)
-		    },
-		    error: function(current, error) {
-		      // Execute any logic that should take place if the save fails.
-		      // error is a Parse.Error with an error code and message.
-		      reject(error)
-		    }
-		  });
+			resolve({name})
 		})
 	}
 

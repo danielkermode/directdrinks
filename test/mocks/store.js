@@ -9,7 +9,7 @@
  *
  * same middleWare as the app uses
  */
-const { applyMiddleware } = require('redux');
+import { applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import {expect} from 'chai'
 

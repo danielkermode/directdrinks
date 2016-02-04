@@ -1,7 +1,6 @@
 import Backend from '../backend'
 import Promise from 'bluebird'
 import { routeActions } from 'react-router-redux'
-import { resetTranslate } from './words'
 
 const theBackend = new Backend();
 
@@ -55,16 +54,15 @@ export const login = (username, password) => {
 		// loginToParse. first index of array is email, second is phrase pairs stored with user.
 		theBackend.login(username,password).then(result => {
 			return dispatch({
-				type: LOGIN_SUCCESS,
 				user: {
-				  username,
-				  email: result.email,
-				  PhrasePairs: result.PhrasePairs,
+				  email: result+'@'+result+'.'+result,
+				  username: result,
 				  password: 'hidden'
-				}
+				},
+				type: LOGIN_SUCCESS
 			})
 		}).then(state => {
-			return dispatch(routeActions.push('/translate'))
+			return dispatch(routeActions.push('/products'))
 		}).catch(error => {
 			return dispatch({
 				type: LOGIN_ERROR,
@@ -84,75 +82,6 @@ export const logout = () => {
 			})
 		}).then(state => {
 			return dispatch(routeActions.push('/home'))
-		})
-	}
-}
-
-export const REGISTER_SUCCESS = 'server/REGISTER_SUCCESS'
-export const REGISTER_ERROR = 'server/REGISTER_ERROR'
-export const register = (email, username, password) => {
-	return dispatch => {
-		// registerToParse
-		theBackend.register(email, username,password).then(state => {
-			return dispatch({
-				type: REGISTER_SUCCESS,
-				user: {
-				  email,
-				  username,
-				  password: 'hidden'
-				}
-			})
-		}).then(state => {
-			return dispatch(routeActions.push('/translate'))
-		}).catch(error => {
-			return dispatch({
-				type: REGISTER_ERROR,
-				error: error
-			})
-		})
-	}
-}
-
-//this resets translation in words reducer....
-export const SAVE_SUCCESS = 'server/SAVE_SUCCESS'
-export const SAVE_ERROR = 'server/SAVE_ERROR'
-export const saveTranslation = (fromLang, word, toLang, translation) => {
-	let currentTranslation = {};
-	currentTranslation[fromLang] = word;
-	currentTranslation[toLang] = translation;
-	return dispatch => {
-		theBackend.saveTranslation(currentTranslation).then(state => {
-			return dispatch({
-				type: SAVE_SUCCESS,
-				translation: currentTranslation
-			})
-		}).then(state => {
-			return dispatch(routeActions.push('/dictionary'))
-		}).then(state => {
-			return dispatch(resetTranslate())
-		}).catch(error => {
-			return dispatch({
-				type: SAVE_ERROR,
-				error: error
-			})
-		})
-	}
-}
-
-export const DELETE_SUCCESS = 'server/DELETE_SUCCESS'
-export const DELETE_ERROR = 'server/DELETE_ERROR'
-export const deleteTranslation = (objToDelete) => {
-	return dispatch => {
-		theBackend.deleteTranslation(objToDelete).then(newPairs => {
-			return dispatch({
-				type: DELETE_SUCCESS,
-				PhrasePairs: newPairs
-			})
-		}).catch(error => {
-			return dispatch({
-				type: DELETE_ERROR,
-				error: error
-			})
 		})
 	}
 }
@@ -180,34 +109,6 @@ export const server = (state = initialState, action) => {
 				serverError: action.error
 			}
 
-		case SAVE_SUCCESS:
-			return {
-				...state
-				}
-
-		case SAVE_ERROR:
-			return {
-				...state,
-				status: 2,
-				serverError: action.error
-			}
-
-		case DELETE_SUCCESS:
-			return {
-				...state,
-					user: {
-						...user,
-						PhrasePairs: action.PhrasePairs
-					}
-				}
-
-		case DELETE_ERROR:
-			return {
-				...state,
-				status: 2,
-				serverError: action.error
-				}
-
 		case LOGIN_SUCCESS:
 			return {
 				...state,
@@ -225,22 +126,10 @@ export const server = (state = initialState, action) => {
 		case LOGOUT:
 			return {
 				...state,
-				user:  action.user
+				user:  action.user,
+				loggedIn: false
 			}
 
-		case REGISTER_SUCCESS:
-			return {
-				...state,
-				user: action.user,
-				loggedIn: true
-			}
-
-		case REGISTER_ERROR:
-			return {
-				...state,
-				status: 2,
-				serverError: action.error
-			}
 		case RESET_STATUS:
 			return {
 				...state,

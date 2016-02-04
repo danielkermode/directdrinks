@@ -29,13 +29,10 @@ export class App extends Component {
               </Navbar.Brand>
             </Navbar.Header>
             <Nav bsStyle="tabs">
-              {!this.props.user && 
-              <Nav bsStyle="tabs">
-	              <LinkContainer to="/login">
-	                <NavItem href="#">Login</NavItem>
-	              </LinkContainer>             
+              {!this.props.user && !this.props.loggedIn &&
+              <Nav bsStyle="tabs">             
               </Nav>}
-              {this.props.user && 
+              {this.props.user && this.props.loggedIn &&
               <Nav bsStyle="tabs">
                 <LinkContainer to="/products">
                   <NavItem href="#">Products</NavItem>
@@ -61,7 +58,8 @@ export class App extends Component {
 function mapStateToProps(state) {
   return {
   		//as in app container, don't use ...state when we use react-redux-router as we never want all the state.
-      user: state.server.user
+      user: state.server.user,
+      loggedIn: state.server.loggedIn
   };
 }
 

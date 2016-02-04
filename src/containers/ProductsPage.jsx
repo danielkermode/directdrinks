@@ -1,38 +1,57 @@
 import React, {Component} from 'react';
 import {Map} from 'immutable';
 
-//components
-import TranslateForm from '../components/TranslateForm'
-
 // redux
 import {connect} from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as serverActions from '../redux/reducers/server'
-import * as wordsActions from '../redux/reducers/words'
+import * as productsActions from '../redux/reducers/products'
+
+//components
+import {ProductBox} from '../components/ProductBox'
+import ProductForm from '../components/ProductForm'
 
 /* create container as stateless function to indicate pure component */
-export class TranslatePage extends Component {
+export class ProductsPage extends Component {
+
+	constructor(props) {
+	    super(props);
+	    this.state = {showAddForm: false};
+	  }
 
 	resetError = () => {
 		this.props.actions.resetStatus(); this.props.actions.resetError()
 	};
 
-	saveTranslation = () => {
-		this.props.actions.resetTranslate()
-		this.props.actions.saveTranslation(this.props.words.result.fromLanguage, this.props.words.result.word, this.props.words.result.toLanguage, this.props.words.result.translation)
+	toggleAddForm = () => {
+		this.props.actions.toggleAddForm()
 	};
 
 	render() {
 		return (
-			<div>
-			  <TranslateForm actions={this.props.actions} serverError={this.props.server.serverError}/>
-			  {this.props.words.result.translation && 
+			<div>	  
+			  {this.props.products.addFormVisible?
 			  <div>
-			  <span>Translation: {this.props.words.result.translation}</span>
-			  <button className="btn btn-success" onClick={this.saveTranslation}> Save this translation </button>
-			  </div>}
-			  {this.props.words.wordError && 
-			  <div className="alert alert-danger">Error: {this.props.words.wordError}</div>}
+				  <button className='btn btn-warning' onClick={this.toggleAddForm}> Cancel </button>
+				  <ProductForm actions={this.props.actions} productsError={this.props.products.productsError} submitText='Add Product'/>
+				</div>
+			  :
+			  <div>
+			  	<button className='btn btn-info' onClick={this.toggleAddForm}> Add Product </button>
+			  	<hr />
+			  </div>
+			  }
+			  <h3 style={{color: "brown"}}> Products </h3>
+			  	{Object.keys(this.props.products.list).map((index) => {
+			  		return <ProductBox
+			  			index={index}
+			  			key={index}
+			  			picture={this.props.products.list[index].picture}
+			  			name={this.props.products.list[index].name}
+			  			price={this.props.products.list[index].price}
+			  			actions={this.props.actions}
+			  		/>
+			  	})}	  	
 			</div>
 		);
 	}
@@ -43,12 +62,12 @@ export class TranslatePage extends Component {
 function mapStateToProps(state) {
   return {
       server: state.server,
-      words: state.words
+      products: state.products
   };
 }
 
 //actions are array for mapDispatchToProps
-const actions = [serverActions, wordsActions];
+const actions = [serverActions, productsActions];
 
 function mapDispatchToProps(dispatch) {
   const creators = Map()
@@ -62,4 +81,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export const TranslatePageContainer = connect(mapStateToProps, mapDispatchToProps)(TranslatePage)
+export const ProductsPageContainer = connect(mapStateToProps, mapDispatchToProps)(ProductsPage)

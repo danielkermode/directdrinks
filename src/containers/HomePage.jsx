@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {Map} from 'immutable';
 import { LinkContainer } from 'react-router-bootstrap';
 
+//components
+import LoginForm from '../components/LoginForm'
+
 // redux
 import {connect} from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -18,17 +21,11 @@ export class HomePage extends Component {
 
 	render() {
 		return (
-			<div> Hi, welcome to your personal dictionary. 
+			<div> <h1 style={{color: "brown"}}> Direct Drinks Admin </h1> 
       <br/>    
-        {!this.props.user?
+        {!this.props.server.user?
         <div>
-          <LinkContainer to="/register">
-          <button className="btn btn-primary"> Register </button>
-        </LinkContainer>
-        &nbsp;&nbsp; or &nbsp;&nbsp;
-        <LinkContainer to="/login">
-          <button className="btn btn-primary"> Login </button>
-        </LinkContainer>
+          <LoginForm actions={this.props.actions} />
         </div> :
         <button onClick={this.logout}className="btn btn-primary"> Logout </button>
       }
@@ -40,7 +37,7 @@ export class HomePage extends Component {
 function mapStateToProps(state) {
   return {
       //as in app container, don't use ...state when we use react-redux-router as we never want all the state.
-      user: state.server.user
+      server: state.server
   };
 }
 

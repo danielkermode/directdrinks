@@ -1,22 +1,32 @@
 import React, {Component} from 'react';
 import {Map} from 'immutable';
-import {DictionaryList} from '../components/DictionaryList'
+import {OrderBox} from '../components/OrderBox'
 
 // redux
 import {connect} from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as serverActions from '../redux/reducers/server'
+import * as ordersActions from '../redux/reducers/orders'
 
 
 /* create container as stateless function to indicate pure component */
-export class DictionaryPage extends Component {
+export class OrdersPage extends Component {
+
+  componentDidMount() {
+    this.props.actions.getOrders(this.props.user)
+  };
 
 	render() {
 		return (
-			<div> Hi, welcome to your personal dictionary. 
+			<div>
+      <h3 style={{color: "brown"}}> Orders </h3>
       <br/>    
         {this.props.user &&
-        <DictionaryList actions={this.props.actions} PhrasePairs={this.props.user.PhrasePairs} />
+          Object.keys(this.props.orders).map((index) => {
+            return (<OrderBox
+                    order={this.props.orders[index]}
+                    key={index}
+                    index={index} />)
+          })
         }
       </div>
 		);
@@ -26,12 +36,13 @@ export class DictionaryPage extends Component {
 function mapStateToProps(state) {
   return {
       //as in app container, don't use ...state when we use react-redux-router as we never want all the state.
-      user: state.server.user
+      user: state.server.user,
+      orders: state.orders
   };
 }
 
 //actions are array for mapDispatchToProps
-const actions = [serverActions];
+const actions = [ordersActions];
 
 function mapDispatchToProps(dispatch) {
   const creators = Map()
@@ -45,4 +56,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export const DictionaryPageContainer = connect(mapStateToProps, mapDispatchToProps)(DictionaryPage)
+export const OrdersPageContainer = connect(mapStateToProps, mapDispatchToProps)(OrdersPage)

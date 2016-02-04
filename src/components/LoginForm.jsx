@@ -7,8 +7,7 @@ class LoginForm extends Component {
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     resetForm: PropTypes.func.isRequired,
-    submitting: PropTypes.bool.isRequired,
-    serverError: PropTypes.string
+    submitting: PropTypes.bool.isRequired
   };
 
   componentDidMount() {
@@ -62,6 +61,6 @@ class LoginForm extends Component {
 }
 
 export default reduxForm({
-  form: 'simple',
+  form: 'LoginForm',
   fields
 })(LoginForm);

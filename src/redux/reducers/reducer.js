@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux'
-import {numbs} from './numbs'
+import {products} from './products'
 import {server} from './server'
-import {words} from './words'
+import {orders} from './orders'
 import { routeReducer } from 'react-router-redux'
 import {reducer as formReducer} from 'redux-form'
 
 export const reducers = combineReducers({
-	numbs,
+	products,
 	server,
-	words,
+	orders,
 	routing: routeReducer,
 	form: formReducer
 })
